@@ -3,7 +3,10 @@
 //  COMSC-210 | Lab 13: Lab 12: STD::vector | Guo An Wang
 //  IDE used: Xcode
 //  Created by Guo An Wang on 9/19/25.
-//
+//  This program takes in the txt file weather which is the daily temperature
+//  high for Lafayette,CA for the next 30 days. It also uses various vector member
+//  functions to demonstrate knowledge, and arithmetic functions
+
 
 #include <iostream>
 #include <fstream>
@@ -23,11 +26,16 @@ int main(int argc, const char * argv[]) {
     
     //copies values from weather.txt to temp variable then
     //temp variable is pushed back(added) to STD::vector
-    //also checks to make sure there is enough elements to weather.txt
-    //or else returns an error
+    //however still runs if input file has less than 30 elements
     int temp;
     while (inputFile >> temp) {
         weather.push_back(temp);
+    }
+    
+    //checks to make sure STD::vector weather has 30 elements
+    if (weather.size()!=30) {
+        cout << "Error: weather.txt does not have enough elements(30 elements required)" << endl;
+        return 1;
     }
     inputFile.close(); //close input file
     
@@ -44,7 +52,8 @@ int main(int argc, const char * argv[]) {
     cout << "\n5. Highest Temperature: " << *max_element(weather.begin(),weather.end()) << endl; //finding max
     cout << "\n6. Lowest Temperature: " << *min_element(weather.begin(),weather.end()) << endl; //min
     cout << "\n7. Sum of temperatures: " << accumulate(weather.begin(),weather.end(),0) << endl; //sum
-   vector<int> week1(weather.begin(),weather.begin() + 7); //declaring new STD::array week1, for first week temperature highs
+    //declaring new STD::vector week1, for first week temperature highs
+    vector<int> week1(weather.begin(),weather.begin() + 7);
     //prints each day temperature high
     cout << "\n8. Week 1: " << endl;
     int day = 1; //integer value for day
@@ -66,15 +75,16 @@ int main(int argc, const char * argv[]) {
         cout << value << " ";
     }
     cout << endl;
+    //added function find to Lab 12
     int target = 75;
-    vector <int> :: iterator it;
+    vector <int> :: iterator it; //declare iterator to point to found target
     it = find(weather.begin(),weather.end(),target);
     cout << "\n11. Value " << target;
     if (it !=weather.end()) {
         cout << " found in position " << it - weather.begin() << endl;
+        cout << "    Value: " << *it << endl;
     } else {
         cout << " was not found" << endl;
     }
-    cout << "   Value: " << *it << endl;
     return 0;
 }
